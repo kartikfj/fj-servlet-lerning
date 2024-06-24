@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+<Resource url="jdbc:mysql://localhost:3306/school" driverClassName="com.mysql.jdbc.Driver" password="Kartik@123" username="root" maxWait="10000" maxIdle="5" maxActive="20" type="javax.sql.DataSource" auth="Container" name="jdbc/mysqlfjtcolocal"/>
+<Resource auth="Container" driverClassName="oracle.jdbc.driver.OracleDriver" maxActive="1000" maxIdle="20" maxWait="10000" minIdle="5" name="jdbc/orclfjtcolocal" password="KHLATAM123" type="javax.sql.DataSource" url="jdbc:oracle:thin:@10.10.0.46:1521:orcl" username="FJPORTAL"/>
+</Context>
