@@ -52,6 +52,15 @@ public class StudentServlet extends HttpServlet {
                 case "ADD":
                     addStudent(request, response);
                     break;
+                case "UPDATE":
+                    updateStudent(request, response);
+                    break;    
+                case "DELETE":
+                    updateStudent(request, response);
+                    break;     
+                case "LOAD":
+                    loadStudent(request, response); // Load student for editing
+                    break;    
                 default:
                     listStudents(request, response);
             }
@@ -88,8 +97,57 @@ public class StudentServlet extends HttpServlet {
         // Send back to main page (student list)
         listStudents(request, response);
     }
+   private String updateStudent(HttpServletRequest request,HttpServletResponse response) throws Exception {
+    
+	   String firstName=request.getParameter("firstName");
+	   String lastName=request.getParameter("lastName");
+	   String email=request.getParameter("email");
+	   String id=request.getParameter("studentId");
+	   int myId=Integer.parseInt(id);
+	   
+	   Student theStudent=new Student(myId,firstName,lastName,email);
+	   
+	   
+	   
+	   
+	   studentDbUtil.updateStudent(theStudent);
 
-    @Override
+	    // Send them back to the "list students" page
+	    listStudents(request, response);
+	   
+	   
+	   
+	   
+	   return "updated";
+    
+   }
+   private void loadStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    // Read student id from the request
+	    String theStudentId = request.getParameter("studentId");
+
+	    // Get the student from the database using the studentDbUtil
+	    Student theStudent = studentDbUtil.getStudent(theStudentId);
+
+	    // Place the student in the request attribute
+	    request.setAttribute("THE_STUDENT", theStudent);
+
+	    // Forward to the update form page
+	    RequestDispatcher dispatcher = request.getRequestDispatcher("/update-student-form.jsp");
+	    dispatcher.forward(request, response);
+	}
+
+   
+   private void deleteStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    // Read student id from form data
+	    String theStudentId = request.getParameter("studentId");
+
+	    // Delete student from database
+	    studentDbUtil.deleteStudent(theStudentId);
+
+	    // Send them back to the "list students" page
+	    listStudents(request, response);
+	}
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Delegate POST requests to the doGet method
         doGet(request, response);
